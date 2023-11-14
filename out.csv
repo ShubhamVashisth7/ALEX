@@ -1,0 +1,3 @@
+Batch, Cumulative Ops, Keys, Dataset, Total Throughput
+2, 1500, 500, resources/sample_keys.bin, 5.01454e+07
+21, 20500000, 10000000, /data/learned-index/longitudes-200M.bin, 1.5071e+07

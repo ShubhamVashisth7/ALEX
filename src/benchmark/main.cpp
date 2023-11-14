@@ -6,7 +6,7 @@
  */
 
 #include "../core/alex.h"
-
+#include <fstream>
 #include <iomanip>
 
 #include "flags.h"
@@ -134,6 +134,7 @@ int main(int argc, char* argv[]) {
     cumulative_inserts += num_actual_inserts;
 
     if (print_batch_stats) {
+      std::cout << "Printing batch stat" << print_batch_stats;
       int num_batch_operations = num_lookups_per_batch + num_actual_inserts;
       double batch_time = batch_lookup_time + batch_insert_time;
       long long cumulative_operations = cumulative_lookups + cumulative_inserts;
@@ -181,6 +182,14 @@ int main(int argc, char* argv[]) {
             << " inserts/sec,\t"
             << cumulative_operations / cumulative_time * 1e9 << " ops/sec"
             << std::endl;
+
+  // Save results
+      std::ofstream resultsFile("out.csv", std::ios::app);
+      if (resultsFile.tellp() == 0) {
+        resultsFile << "Batch, Cumulative Ops, Keys, Dataset, Total Throughput" << std::endl;
+      }
+      resultsFile << batch_no << ", " << cumulative_operations << ", " << init_num_keys <<", "
+      << keys_file_path << ", " << cumulative_lookups / cumulative_lookup_time * 1e9 << std::endl;
 
   delete[] keys;
   delete[] values;
